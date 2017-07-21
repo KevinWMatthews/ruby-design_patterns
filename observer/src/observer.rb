@@ -4,20 +4,30 @@ class Employee
   attr_reader :name, :title
   attr_accessor :salary
 
-  def initialize(name, title, salary, payroll)
+  def initialize(name, title, salary)
     @name = name
     @title = title
     @salary = salary
-    @payroll = payroll
+    @observers = []
   end
 
   def salary=(new_salary)
     @salary = new_salary
-    # This works well when we only need to notify a single object.
-    # What if there are several?
-    # We would need to update the Employee class to update an
-    # object that isn't an Employee....
-    @payroll.update(self)
+    notify_observers
+  end
+
+  def notify_observers
+    @observers.each do |observer|
+      observer.update(self)
+    end
+  end
+
+  def add_observer(observer)
+    @observers << observer
+  end
+
+  def delete_observer(observer)
+    @observers.delete(observer)
   end
 end
 
