@@ -37,3 +37,9 @@ class Payroll
     puts("His salary is now #{changed_employee.salary}!")
   end
 end
+
+class TaxMan
+  def update(changed_employee)
+    puts("Send #{changed_employee.name} a new tax bill!")
+  end
+end
