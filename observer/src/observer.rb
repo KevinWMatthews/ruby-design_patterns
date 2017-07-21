@@ -1,38 +1,17 @@
 #!/usr/bin/env ruby
 
-# We could/will end up implementing several Observer patterns.
-# If this is the case in your project, extract the mechanics
-# of the observer pattern.
-module Subject
-  def initialize
-    @observers = []
-  end
-
-  def add_observer(observer)
-    @observers << observer
-  end
-
-  def delete_observer(observer)
-    @observers.delete(observer)
-  end
-
-  def notify_observers
-    @observers.each do |observer|
-      observer.update(self)
-    end
-  end
-end
+# Ruby has a pre-built implementation of the Observer pattern
+require 'observer'
 
 # This is the Subject class.
 # It is the source of news; it is changing.
 class Employee
-  include Subject
+  include Observable
 
   attr_reader :name, :title
   attr_accessor :salary
 
   def initialize(name, title, salary)
-    super()   # Incorporate stuff from the module. Add parenthesis to send no arguments.
     @name = name
     @title = title
     @salary = salary
@@ -40,7 +19,8 @@ class Employee
 
   def salary=(new_salary)
     @salary = new_salary
-    notify_observers
+    changed     # This must be done before calling notify_observers(). It lets the Observerable module know that the object really has changed.
+    notify_observers(self)
   end
 end
 
