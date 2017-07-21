@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# This is the Subject class.
+# It is the source of news; it is changing.
 class Employee
   attr_reader :name, :title
   attr_accessor :salary
@@ -31,6 +33,8 @@ class Employee
   end
 end
 
+# These are the Observer classes.
+# The need to be notified when the subject class changes.
 class Payroll
   def update(changed_employee)
     puts("Cut a new check for #{changed_employee.name}!")
