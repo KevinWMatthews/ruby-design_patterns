@@ -1,27 +1,11 @@
 #!/usr/bin/env ruby
 
-# This is the Subject class.
-# It is the source of news; it is changing.
-class Employee
-  attr_reader :name, :title
-  attr_accessor :salary
-
-  def initialize(name, title, salary)
-    @name = name
-    @title = title
-    @salary = salary
+# We could/will end up implementing several Observer patterns.
+# If this is the case in your project, extract the mechanics
+# of the observer pattern.
+module Subject
+  def initialize
     @observers = []
-  end
-
-  def salary=(new_salary)
-    @salary = new_salary
-    notify_observers
-  end
-
-  def notify_observers
-    @observers.each do |observer|
-      observer.update(self)
-    end
   end
 
   def add_observer(observer)
@@ -30,6 +14,33 @@ class Employee
 
   def delete_observer(observer)
     @observers.delete(observer)
+  end
+
+  def notify_observers
+    @observers.each do |observer|
+      observer.update(self)
+    end
+  end
+end
+
+# This is the Subject class.
+# It is the source of news; it is changing.
+class Employee
+  include Subject
+
+  attr_reader :name, :title
+  attr_accessor :salary
+
+  def initialize(name, title, salary)
+    super()   # Incorporate stuff from the module. Add parenthesis to send no arguments.
+    @name = name
+    @title = title
+    @salary = salary
+  end
+
+  def salary=(new_salary)
+    @salary = new_salary
+    notify_observers
   end
 end
 
