@@ -21,3 +21,16 @@ class ExternalIterator
     value
   end
 end
+
+
+# This is an internal iterator.
+# We pass it an array and a block,
+# and the array (I guess we could extend the Array object?)
+# calls the block for each of its own sub-objects.
+def for_each_element(array)
+  i = 0
+  while i < array.length
+    yield(array[i])
+    i += 1
+  end
+end
