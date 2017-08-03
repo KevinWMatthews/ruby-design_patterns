@@ -13,3 +13,9 @@ puts "\nInternal iterator"
 for_each_element(array) do |element|
   puts("item: #{element}")
 end
+
+# The Array class already provides an internal iterator:
+puts "\nBuilt-in internal iterator"
+array.each do |element|
+  puts("item: #{element}")
+end
