@@ -16,3 +16,26 @@ class Encrypter
     end
   end
 end
+
+# What if need to read from a string instead of a file?
+# The String class does not provide the getc() and eof() methods.
+# If we provide them then everything will work.
+class StringIOAdapter
+  def initialize(string)
+    @string = string
+    @position = 0
+  end
+
+  def getc
+    if @position >= @string.length
+      raise EOFError
+    end
+    ch = @string[@position]
+    @position += 1
+    return ch
+  end
+
+  def eof?
+    return @position >= @string.length
+  end
+end

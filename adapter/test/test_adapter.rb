@@ -17,3 +17,14 @@ writer = File.open('message.decrypted', 'w')
 encrypter.encrypt(reader, writer)
 writer.close
 reader.close
+
+reader = StringIOAdapter.new("Test string.")
+writer = File.open('string.encrypted', 'w')
+encrypter.encrypt(reader, writer)
+writer.close
+
+reader = File.open('string.encrypted')
+writer = File.open('string.decrypted', 'w')
+encrypter.encrypt(reader, writer)
+writer.close
+reader.close
