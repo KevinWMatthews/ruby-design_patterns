@@ -17,5 +17,5 @@ puts account.balance
 
 puts
 puts 'Demonstrate a virtual proxy that delays object creation:'
-account = VirtualAccountProxy.new(789)
+account = VirtualAccountProxy.new { BankAccount.new(789) }
 puts account.balance

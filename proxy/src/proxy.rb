@@ -3,8 +3,8 @@ require 'etc'
 # The Virtual Proxy delays creation of the object as long as possible.
 # The object is created only when a method is called, not when the Virual Proxy is initialized.
 class VirtualAccountProxy
-  def initialize(starting_balance=0)
-    @starting_balance = starting_balance
+  def initialize(&creation_block)
+    @creation_block = creation_block
   end
 
   def deposit(amount)
@@ -25,8 +25,7 @@ class VirtualAccountProxy
   def subject
     # Return the object if it exists OR
     # create a new object and return it.
-    # The drawback is that the proxy must know how to initialize the object.
-    @subject || (@subject = BankAccount.new(@starting_balance))
+    @subject || (@subject = @creation_block.call)
   end
 end
 
