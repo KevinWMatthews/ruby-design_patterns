@@ -1,5 +1,35 @@
 require 'etc'
 
+# The Virtual Proxy delays creation of the object as long as possible.
+# The object is created only when a method is called, not when the Virual Proxy is initialized.
+class VirtualAccountProxy
+  def initialize(starting_balance=0)
+    @starting_balance = starting_balance
+  end
+
+  def deposit(amount)
+    s = subject   # Get/create the object
+    return s.deposit(amount)
+  end
+
+  def withdraw(amount)
+    s = subject
+    return s.withdraw(amount)
+  end
+
+  def balance
+    s = subject
+    return s.balance
+  end
+
+  def subject
+    # Return the object if it exists OR
+    # create a new object and return it.
+    # The drawback is that the proxy must know how to initialize the object.
+    @subject || (@subject = BankAccount.new(@starting_balance))
+  end
+end
+
 # This is a demonstration of Protection Proxy: limiting access to the real object.
 # If your current username does not match 'owner_name', you will be denied access.
 class AccountProtectionProxy

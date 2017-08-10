@@ -14,3 +14,8 @@ puts
 puts 'Demonstrate a proxy that processes requests:'
 account = AccountProtectionProxy.new(BankAccount.new(1234), 'kmatthews')  # change from kmatthews for failure
 puts account.balance
+
+puts
+puts 'Demonstrate a virtual proxy that delays object creation:'
+account = VirtualAccountProxy.new(789)
+puts account.balance
