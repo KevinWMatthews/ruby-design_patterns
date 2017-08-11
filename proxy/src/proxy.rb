@@ -7,19 +7,9 @@ class VirtualAccountProxy
     @creation_block = creation_block
   end
 
-  def deposit(amount)
+  def method_missing(name, *args)
     s = subject   # Get/create the object
-    return s.deposit(amount)
-  end
-
-  def withdraw(amount)
-    s = subject
-    return s.withdraw(amount)
-  end
-
-  def balance
-    s = subject
-    return s.balance
+    s.send(name, *args)
   end
 
   def subject
@@ -37,19 +27,9 @@ class AccountProtectionProxy
     @owner_name = owner_name
   end
 
-  def deposit(amount)
+  def method_missing(name, *args)
     check_access
-    return @subject.deposit(amount)
-  end
-
-  def withdraw(amount)
-    check_access
-    return @subject.withdraw(amount)
-  end
-
-  def balance
-    check_access
-    return @subject.balance
+    @subject.send(name, *args)
   end
 
   def check_access
@@ -67,16 +47,8 @@ class BankAccountProxy
     @real_object = real_object
   end
 
-  def balance
-    @real_object.balance
-  end
-
-  def deposit(amount)
-    @real_object.deposit(amount)
-  end
-
-  def withdraw(amount)
-    @real_object.withdraw(amount)
+  def method_missing(name, *args)
+    @real_object.send(name, *args)
   end
 end
 
